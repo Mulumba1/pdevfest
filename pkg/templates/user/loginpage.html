@@ -83,15 +83,20 @@
 <h1 class="h3 mb-3 text-center">Moat DevFest 2024 <br> Please Login</h1>
 
 {% set m = get_flashed_messages(with_categories=True) %}
-{% if m %}
-  {% for cat,msg in m %}
-  {% if cat =='error' %}
-    <div class="alert alert-info noround"> {{ msg }} </div>
-  {% else %}
-    <div class="alert alert-info noround"> {{ msg }} </div>
+  {% if m %}
+    {% for cat,msg in m %}
+      {% if cat == "error" %}
+        <div class="alert alert-danger noround">
+          {{ msg }}
+        </div>
+      {% else %}
+        <div class="alert alert-info noround">
+          {{ msg }}
+        </div>
+      {% endif %}
+    {% endfor %}
   {% endif %}
-{% endfor %}
-{% endif %}
+
 
 
 
@@ -112,7 +117,6 @@
     <div class="form-floating">
       <p> Don't have account? <a href="register.html">Signup</a>   </p>
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-     
     </div>
   </form>
 

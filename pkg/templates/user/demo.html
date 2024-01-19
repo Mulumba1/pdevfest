@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+</head>
+<body>
+    <!-- <select name="state" id="state">
+        <option value="">Select</option>
+        {% for state in states %}
+            <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+        {% endfor %}
+    </select>
+    
+    <select name="lga" id="lga">
+        <option value="">Select</option> 
+        {% for lga in lgas %}
+            <option value="{{ lga.lga_id }}">{{ lga.lga_name }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" id="sendButton">Send</button> -->
+
+
+    <select name="state" id="state">
+        <option value="">Select</option>
+        {% for state in states %}
+            <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+        {% endfor %}
+    </select>
+    
+    <select name="lga" id="lga">
+        <option value="">Select</option>
+    </select>
+    <button type="button" id="sendButton">Send</button>
+    
+    
+
+<!-- <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="static/https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#state').change(function() {
+            var stateId = $(this).val();
+            var csrf = "{{ csrf_token() }}";
+            $.ajax({
+                url: '/lga/post',
+                type: 'POST',  
+                data: {"state_id": stateId, "csrf_token": csrf},
+                success: function(resp) {
+                    var lgaDropdown = $('#lga');
+                    lgaDropdown.empty(); 
+                    lgaDropdown.append('<option value="">Select</option>');  
+                    $.each(resp, function(index, lga) {
+                        lgaDropdown.append('<option value="' + lga.lga_id + '">' + lga.lga_name + '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#sendButton').click(function() {
+            // Add logic to handle the button click
+        });
+    });
+</script> -->
+
+<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#state').change(function() {
+                var stateId = $(this).val();
+                var csrf = "{{ csrf_token() }}";
+                $.ajax({
+                    url: '/lga/post',
+                    type: 'POST',
+                    data: {"state_id": stateId, "csrf_token": csrf},
+                    success: function(resp) {
+                        $('#lga').empty();
+                        if (resp && resp.length) {
+                            $.each(resp, function(index, lga) {
+                                $('#lga').append('<option value="' + lga.lga_id + '">' + lga.lga_name + '</option>');
+                            });
+                        } else {
+                            $('#lga').append('<option value="">No LGAs found</option>');
+                        }
+                    },
+                    error: function() {
+                        $('#lga').empty();
+                        $('#lga').append('<option value="">Error loading LGAs</option>');
+                    }
+                });
+            });
+    
+            $('#sendButton').click(function() {
+                // Add logic to handle the button click
+            });
+        });
+    </script>
+
+
+    <!-- <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#state').change(function() {
+                  var  stateId = $(this).val()
+                  var csrf = "{{csrf_token()}}"
+                    $.ajax({
+                        url: '/lga/get/',
+                        type: 'POST',
+                        data: {"state_id": stateId, "csrf_token": csrf},
+                        success: function(resp) {
+                            
+                        }
+                    })
+                })
+                
+            })
+        </script> -->
+    
+</body>
+</html>

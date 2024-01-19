@@ -9,3 +9,7 @@ class BreakoutForm(FlaskForm):
     image = FileField(validators=[FileRequired(), FileAllowed(['jpg','jpeg','png'],"We only allow images")])
     status = BooleanField("Status:", validators=[DataRequired()])
     submit = SubmitField("Add Topic")
+
+
+
+    

@@ -3,6 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+class UserRegistration(db.Model):
+    registration_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    break_id = db.Column(db.Integer, db.ForeignKey('breakout.break_id'))
+    datereg = db.Column(db.DateTime(), default=datetime.utcnow)
+    user_who_registered = db.relationship('User', backref="myregistrations")
+
 class State(db.Model):
     state_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     state_name = db.Column(db.String(100),nullable=False) 
@@ -48,13 +55,30 @@ class Admin(db.Model):
     admin_username=db.Column(db.String(20),nullable=True)
     admin_pwd=db.Column(db.String(200),nullable=True)
 
+
 class Breakout(db.Model):
     break_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     break_title = db.Column(db.String(200),nullable=False)
-    break_image = db.Column(db.String(120), nullable=True)    
+    break_image = db.Column(db.String(120),nullable=True)
     break_status = db.Column(db.Enum('1','0'),nullable=False)
-    break_time = db.Column(db.DateTime(),default=datetime.utcnow)
+    break_time = db.Column(db.DateTime(), default=datetime.utcnow)
+    break_level = db.Column(db.Integer(), db.ForeignKey('level.level_id'))
+    breakleveldeets = db.relationship('Level', back_populates='level_breakouts')
+    regdeets = db.relationship('UserRegistration', backref='regbreakdeets')
 
-    break_level = db.Column(db.Integer, db.ForeignKey('level.level_id'))
 
-    breakleveldeets = db.relationship("Level", back_populates="level_breakouts")
+class Donation(db.Model):  
+    donate_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
+    donate_amt = db.Column(db.Float,nullable=False)
+    donate_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    donate_date=db.Column(db.DateTime(), default=datetime.utcnow)
+    donate_status = db.Column(db.Enum('pending','paid','failed'),nullable=False)
+    donate_email = db.Column(db.String(120),nullable=False)
+    donate_donor = db.Column(db.String(200),nullable=False)
+    donate_paygate=db.Column(db.String(200), nullable=True)
+    donate_ref = db.Column(db.String(200), nullable=True)
+    donate_dateupdate=db.Column(db.DateTime())
+    donatedby = db.relationship("User", backref="donordeets")
+     
+    
+   
